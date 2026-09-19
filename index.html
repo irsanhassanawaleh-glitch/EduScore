@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduScore</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f1f5f9;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2563eb;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 15px;
+      box-shadow: 0 3px 10px #ccc;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .eleve {
+      background: #f8fafc;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 10px;
+    }
+
+    .moyenne {
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>📚 EduScore</h1>
+
+    <div class="card">
+      <h2>Ajouter un élève</h2>
+
+      <input id="nom" type="text" placeholder="Nom de l'élève">
+
+      <input id="note1" type="number" min="0" max="20"
+             placeholder="Note 1 /20">
+
+      <input id="note2" type="number" min="0" max="20"
+             placeholder="Note 2 /20">
+
+      <input id="note3" type="number" min="0" max="20"
+             placeholder="Note 3 /20">
+
+      <button onclick="ajouterEleve()">
+        Ajouter l'élève
+      </button>
+    </div>
+
+    <div class="card">
+      <h2>📊 Résultats</h2>
+
+      <div id="resultats"></div>
+    </div>
+
+  </div>
+
+  <script>
+
+    function ajouterEleve() {
+
+      const nom = document.getElementById("nom").value;
+
+      const note1 = Number(document.getElementById("note1").value);
+      const note2 = Number(document.getElementById("note2").value);
+      const note3 = Number(document.getElementById("note3").value);
+
+      if (nom === "") {
+        alert("Veuillez entrer le nom de l'élève.");
+        return;
+      }
+
+      if (
+        note1 < 0 || note1 > 20 ||
+        note2 < 0 || note2 > 20 ||
+        note3 < 0 || note3 > 20
+      ) {
+        alert("Les notes doivent être entre 0 et 20.");
+        return;
+      }
+
+      const moyenne = (note1 + note2 + note3) / 3;
+
+      let analyse;
+
+      if (moyenne >= 16) {
+        analyse = "🌟 Excellent niveau";
+      } else if (moyenne >= 14) {
+        analyse = "👏 Très bon niveau";
+      } else if (moyenne >= 10) {
+        analyse = "✅ Niveau satisfaisant";
+      } else {
+        analyse = "⚠️ Élève à accompagner";
+      }
+
+      const eleve = document.createElement("div");
+
+      eleve.className = "eleve";
+
+      eleve.innerHTML = `
+        <h3>👨‍🎓 ${nom}</h3>
+
+        <p>Note 1 : ${note1}/20</p>
+        <p>Note 2 : ${note2}/20</p>
+        <p>Note 3 : ${note3}/20</p>
+
+        <p class="moyenne">
+          Moyenne : ${moyenne.toFixed(2)}/20
+        </p>
+
+        <p>${analyse}</p>
+      `;
+
+      document.getElementById("resultats").appendChild(eleve);
+
+      document.getElementById("nom").value = "";
+      document.getElementById("note1").value = "";
+      document.getElementById("note2").value = "";
+      document.getElementById("note3").value = "";
+    }
+
+  </script>
+
+</body>
+  </html>
